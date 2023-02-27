@@ -1,57 +1,54 @@
 import React, { useState } from 'react'
 
 function TodoList() {
-    const [activity, setActivity] = useState("")
-    const [time, setTime] = useState("00:00:00")
-    // const [listtime, setlistTime] = useState([])
+    const [activity, setActivity] = useState([{
+        activ: "",
+        time: ""
+    }])
+
     const [listData, setlistData] = useState([])
     function addActivity() {
-        // setlistData([...listData, activity])
-        // console.log(listData)
+
         setlistData((listData) => {
-            const updateList = [...listData, activity]
-            setActivity("")
-            
-            return updateList;
+            const updateList = [...listData,activity]
+            // console.log(updateList)
+            return updateList;            
         })
-//         setlistTime((time) => {
-//             const updatetime = [...listtime, time]
-//             setTime("")
-//             return updatetime;
-// })
-        // console.log(updateList)
+        
+        setActivity("")
+        console.log(listData)
     }
     function removeActivity(i) {
-        const updatedListData = listData.filter((elem, id) => {
+        const updatedListData = listData.filter((id) => {
             return i !== id;
         })
         setlistData(updatedListData)
     }
     function removeAll() {
         setlistData([])
-    }
+    } 
+
     return (
         <>
-            <div className='container'>
+            <form className='container' onSubmit={(e) => (e.preventDefault())}>
                 <div className='heading'>TODO LIST</div>
-                <input type="text" placeholder="Add Activity" value={activity} onChange={(e) => setActivity(e.target.value)} />
-                <input type="time" step="1" value={time}  placeholder="Time" onChange={(e) => setTime(e.target.value)}
+                <input type="text" placeholder="Add Activity" value={activity.activ} onChange={(e) => setActivity(e.target.value)} />
+                <input type="time" step="1" value={activity.time} onChange={(e) => setActivity(e.target.value)}
                 />
                 <button onClick={addActivity}>Add</button>
                 <p className='list-heading'>Heare is yor List:</p>
                 {listData.map((data, i) => {
                     return (
-
                         <div key={i}>
-                            <p className='listData'>{data}<span>     {time }</span></p>
+                            <p className='listData'>{data}<span> </span></p>
                             <div><button onClick={() => removeActivity(i)}>Remove(-)</button></div>
                         </div>
                     )
                 })}
                 {listData.length >= 1 && <button onClick={removeAll}>Remove All</button>}
-            </div>
+            </form>
         </>
     )
 }
 
-export default TodoList
+export default TodoList;
